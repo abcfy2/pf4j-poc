@@ -1,0 +1,51 @@
+import java.time.Instant
+
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly "org.pf4j:pf4j:${pf4jVersion}"
+    annotationProcessor "org.pf4j:pf4j:${pf4jVersion}"
+}
+
+version = '0.0.1'
+
+/**
+ * Plugin MANIFEST sample:
+ * Manifest-Version: 1.0
+ * Archiver-Version: Plexus Archiver
+ * Created-By: Apache Maven
+ * Built-By: decebal
+ * Build-Jdk: 1.6.0_17
+ * Plugin-Class: org.pf4j.demo.welcome.WelcomePlugin
+ * Plugin-Dependencies: x, y, z
+ * Plugin-Id: welcome-plugin
+ * Plugin-Provider: Decebal Suiu
+ * Plugin-Version: 0.0.1
+ */
+jar {
+    manifest {
+        attributes(
+                'Built-By': System.properties['user.name'],
+                'Build-Timestamp': Instant.now(),
+                'Created-By': "Gradle ${gradle.gradleVersion}",
+                'Build-Jdk': "${System.properties['java.version']} (${System.properties['java.vm.vendor']} ${System.properties['java.vm.version']})",
+                'Build-OS': "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}",
+                'Plugin-Class': 'pf4j.poc.HelloPlugin',
+                'Plugin-Id': 'HelloPlugin',
+                'Plugin-Version': archiveVersion.get(),
+                'Plugin-Description': 'This is my first plugin named HelloPlugin.'
+        )
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('hello-plugin')
+    archiveClassifier.set('')
+}

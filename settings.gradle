@@ -1,0 +1,3 @@
+rootProject.name = 'pf4j-poc'
+include('app')
+include('plugins:plugin1')
