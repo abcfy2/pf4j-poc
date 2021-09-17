@@ -1,5 +1,6 @@
 dependencies {
     implementation "org.pf4j:pf4j:${pf4jVersion}"
+    implementation "org.pf4j:pf4j-update:${pf4jUpdateVersion}"
     runtimeOnly 'ch.qos.logback:logback-classic:1.2.6'
 }
 

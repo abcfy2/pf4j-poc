@@ -15,18 +15,17 @@ public class HelloPlugin extends Plugin {
 
     @Override
     public void start() {
-        System.out.println(descriptor.toString());
-        System.out.printf("%s %s started%n", descriptor.getPluginId(), descriptor.getVersion());
+        log.info("{} ({}) is running, plugin info: {}", descriptor.getPluginId(), descriptor.getVersion(), descriptor);
     }
 
     @Override
     public void stop() {
-        System.out.printf("%s %s stopped%n", descriptor.getPluginId(), descriptor.getVersion());
+        log.info("{} ({}) stopped.", descriptor.getPluginId(), descriptor.getVersion());
     }
 
     @Override
     public void delete() {
-        System.out.printf("%s %s deleted", descriptor.getPluginId(), descriptor.getVersion());
+        log.info("{} ({}) deleted.", descriptor.getPluginId(), descriptor.getVersion());
     }
 
 }
