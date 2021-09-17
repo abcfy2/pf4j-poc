@@ -1,12 +1,3 @@
-plugins {
-    id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.0.0'
-}
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation "org.pf4j:pf4j:${pf4jVersion}"
     runtimeOnly 'ch.qos.logback:logback-classic:1.2.6'
@@ -18,11 +9,6 @@ jar {
     manifest {
         attributes(
                 'Main-Class': 'pf4j.poc.App',
-                'Built-By': System.properties['user.name'],
-                'Build-Timestamp': Instant.now(),
-                'Created-By': "Gradle ${gradle.gradleVersion}",
-                'Build-Jdk': "${System.properties['java.version']} (${System.properties['java.vm.vendor']} ${System.properties['java.vm.version']})",
-                'Build-OS': "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
         )
     }
 }
