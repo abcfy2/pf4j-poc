@@ -7,20 +7,40 @@ import org.pf4j.update.UpdateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class App {
 
     private static final Logger log = LoggerFactory.getLogger(App.class);
-    private static PluginManager pluginManager;
+    private static final PluginManager pluginManager = new DefaultPluginManager();
+    /**
+     * Initialize an empty UpdateRepository list to prevent NPE
+     * if repositories.json does not exist
+     */
+    private static final UpdateManager updateManager = new UpdateManager(pluginManager, new ArrayList<>());
 
     public static void main(String[] args) {
-        pluginManager = new DefaultPluginManager();
         pluginManager.loadPlugins();
+        pluginManager.startPlugins();
+        log.info("App is running...");
 
-        // create update manager
-        UpdateManager updateManager = new UpdateManager(pluginManager);
+        // Add shutdown hook.
+        Runtime.getRuntime().addShutdownHook(new Thread(App::stop));
 
+        try {
+            for (int i = 0; i < Integer.MAX_VALUE; i++) {
+                updatePlugins();
+                Thread.sleep(5000);
+            }
+        } catch (InterruptedException e) {
+            stop();
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private static void updatePlugins() {
+        updateManager.refresh();
         // >> keep system up-to-date <<
         boolean systemUpToDate = true;
 
@@ -67,31 +87,13 @@ public class App {
             log.debug("No available plugins found");
         }
 
-        pluginManager.startPlugins();
-
         if (systemUpToDate) {
             log.debug("System up-to-date");
         }
-
-        // Add shutdown hook.
-        Runtime.getRuntime().addShutdownHook(new Thread(App::stop));
-
-        try {
-            for (int i = 0; i < Integer.MAX_VALUE; i++) {
-                log.info("App is running.");
-                Thread.sleep(5000);
-            }
-        } catch (InterruptedException e) {
-            stop();
-            Thread.currentThread().interrupt();
-        }
-
     }
 
     public static void stop() {
-        if (pluginManager != null) {
-            pluginManager.stopPlugins();
-        }
+        pluginManager.stopPlugins();
         log.info("App stopped");
     }
 

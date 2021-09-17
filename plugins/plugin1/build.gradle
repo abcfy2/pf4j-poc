@@ -3,8 +3,6 @@ dependencies {
     annotationProcessor "org.pf4j:pf4j:${pf4jVersion}"
 }
 
-version = '0.0.1'
-
 /**
  * Plugin MANIFEST sample:
  * Manifest-Version: 1.0
@@ -23,7 +21,7 @@ jar {
         attributes(
                 'Plugin-Class': 'pf4j.poc.HelloPlugin',
                 'Plugin-Id': 'HelloPlugin',
-                'Plugin-Version': archiveVersion.get(),
+                'Plugin-Version': project.version,
                 'Plugin-Description': 'This is my first plugin named HelloPlugin.'
         )
     }
